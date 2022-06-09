@@ -1,26 +1,57 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <nav-bar></nav-bar>
+  <div class="GoodsList">
+    <ware-item v-for="atom in goods" :key="atom.id" :atom="atom"></ware-item>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+import WareItem from "./components/WareItem.vue"
+import NavBar from './components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    NavBar,
+    WareItem,
+  },
+  methods: {
+    pullData(){
+        axios.get('/goods/list')
+          .then((response) => {
+              this.goods.push(...response.data);
+            })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.pullData();
+  },
+  data() {
+      return {
+          goods: []
+      }
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+#app
+  background-color: #e3f9fd
+.GoodsList
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-style: solid
+  border-color: grey
+  border: 1px
+  position: fixed
+  top: 7%
+  left: 5%
+  width: 90%
+  height: 60%
+  overflow: auto
 </style>
