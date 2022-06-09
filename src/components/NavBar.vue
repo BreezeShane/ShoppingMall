@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <span class="headTitle">
-      <font-awesome-icon icon="cart-shopping" />
+      <font-awesome-icon icon="shop" />
       简易购物商城
     </span>
     <div class="actions">
@@ -23,9 +23,9 @@
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCartShopping,faJetFighterUp,faIdCard } from '@fortawesome/free-solid-svg-icons'
+import { faShop,faJetFighterUp,faIdCard } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCartShopping,faJetFighterUp, faIdCard);
+library.add(faShop,faJetFighterUp, faIdCard);
 
 export default {
   name: 'NavBar',

@@ -3,12 +3,23 @@
   <div class="GoodsList">
     <ware-item v-for="atom in goods" :key="atom.id" :atom="atom"></ware-item>
   </div>
+  <div>
+    <a class="JumptoShoppingCart" href="">
+      <font-awesome-icon icon="cart-shopping" />
+      我的购物车
+    </a>
+  </div>
 </template>
 
 <script>
 import axios from 'axios';
 import WareItem from "./components/WareItem.vue"
 import NavBar from './components/NavBar.vue'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faShoppingCart)
 
 export default {
   name: 'App',
@@ -50,4 +61,12 @@ export default {
   width: 90%
   height: 60%
   overflow: auto
+
+.JumptoShoppingCart
+  text-decoration-line: none
+  position absolute
+  top: 70%
+  width: 100%
+  text-align: center
+  font-size: 50px
 </style>
