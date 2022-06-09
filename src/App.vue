@@ -16,19 +16,14 @@ export default {
     NavBar,
     WareItem,
   },
-  methods: {
-    pullData(){
-        axios.get('/goods/list')
-          .then((response) => {
-              this.goods.push(...response.data);
-            })
-        .catch(function (error) {
-            console.log(error);
-        });
-    },
-  },
   mounted() {
-    this.pullData();
+    axios.get('/goods/list')
+      .then((response) => {
+          this.goods.push(...response.data);
+        })
+    .catch(function (error) {
+        console.log(error);
+    });
   },
   data() {
       return {
@@ -41,6 +36,7 @@ export default {
 <style lang="stylus">
 #app
   background-color: #e3f9fd
+
 .GoodsList
   display: flex;
   justify-content: space-between;

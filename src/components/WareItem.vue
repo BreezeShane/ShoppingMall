@@ -18,12 +18,15 @@ export default {
     border: 2px
     border-style: solid
     border-color: grey
+
 .itemImg
     width: 100%
+
 .itemName
     text-align: center
     font-size: larger
     font-weight: bolder
+
 .itemPrice
     color: red
     text-align: right
