@@ -13,9 +13,11 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "core-js": "^3.8.3",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.6.0",
     "stylus": "^0.58.1",
     "stylus-loader": "^7.0.0",
-    "vue": "^3.2.13"
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

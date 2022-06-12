@@ -6,13 +6,13 @@
     </span>
     <div class="actions">
       <div class="nav-item">
-        <a class="user" href="/user/login">
+        <a class="user" id="goToLogin" @click="goToLogin">
           <font-awesome-icon icon="jet-fighter-up" />
           登录
         </a>
       </div>
       <div class="nav-item">
-        <a class="user" href="/user/register">
+        <a class="user" id="goToRegister" @click="goToRegister">
           <font-awesome-icon icon="id-card" />
           注册
         </a>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faShop,faJetFighterUp,faIdCard } from '@fortawesome/free-solid-svg-icons'
 
@@ -32,6 +33,23 @@ export default {
   props: {
     msg: String
   },
+  setup() {
+    const router = useRouter();
+    const goToLogin = () => {
+      router.push({
+        name: "SignIn",
+      });
+    };
+    const goToRegister = () => {
+      router.push({
+        name: "SignUp",
+      });
+    };
+    return {
+      goToLogin,
+      goToRegister
+    };
+  }
 }
 </script>
 

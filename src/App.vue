@@ -1,21 +1,10 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="GoodsList">
-    <ware-item v-for="atom in goods" :key="atom.id" :atom="atom"></ware-item>
-  </div>
-  <div>
-    <a class="JumptoShoppingCart" href="">
-      <font-awesome-icon icon="cart-shopping" />
-      我的购物车
-    </a>
-  </div>
+  <router-view />
 </template>
 
 <script>
-import axios from 'axios';
-import WareItem from "./components/WareItem.vue"
 import NavBar from './components/NavBar.vue'
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 
@@ -25,21 +14,6 @@ export default {
   name: 'App',
   components: {
     NavBar,
-    WareItem,
-  },
-  mounted() {
-    axios.get('/goods/list')
-      .then((response) => {
-          this.goods.push(...response.data);
-        })
-    .catch(function (error) {
-        console.log(error);
-    });
-  },
-  data() {
-      return {
-          goods: []
-      }
   },
 }
 </script>
