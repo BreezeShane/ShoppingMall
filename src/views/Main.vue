@@ -23,7 +23,7 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 library.add(faShoppingCart)
 
 export default {
-  name: 'App',
+  name: 'MainPane',
   components: {
     WareItem,
   },

@@ -38,7 +38,7 @@ export default {
                     "price": price
                 }
             }).then((res) => {
-                console.log(res.data);
+                return res.data;
             })
         }
     },
