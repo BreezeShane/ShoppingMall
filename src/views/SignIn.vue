@@ -3,9 +3,11 @@
         <div class="Login">
             <div id="userName">
                 <label>用户名：</label><input id="inputUserName" type="text">
+                <span class="dumpedError" id="userNameError" style="display: none;">请输入用户名！</span>
             </div>
             <div id="userPassword">
                 <label>密码：</label><input id="inputUserPassword" type="password">
+                <span class="dumpedError" id="userPasswordError" style="display: none;">请输入密码！</span>
             </div>
             <input id="loginSubmit" type="button" @click="toSignIn" value="登     录">
         </div>
@@ -22,17 +24,27 @@ export default {
   },
   methods: {
       toSignIn(){
-          let userName = $("#inputUserName").val()
-          let userPassword = $("#inputUserPassword").val()
-          console.log(userName, userPassword)
-          axios.get('/api/user/login', {
-            params: {
-              "name": userName,
-              "password": userPassword
-            }
-          }).then(res => {
-              console.log(res);
-          })
+        $("#userNameError").css("display", "none");
+        $("#userPasswordError").css("display", "none");
+        let userName = $("#inputUserName").val()
+        let userPassword = $("#inputUserPassword").val()
+
+        if (userName == ''){
+            $("#userNameError").css("display", "block");
+        }
+        if (userPassword == ''){
+            $("#userPasswordError").css("display", "block");
+        }
+        if (userName && userPassword){
+            axios.get('/api/user/login', {
+                params: {
+                "name": userName,
+                "password": userPassword
+                }
+            }).then(res => {
+                return res.data
+            });
+        }
       }
   },
 }
@@ -81,4 +93,11 @@ export default {
         border-radius: 10px
         color: #f2fdff
         background-color: #177cb0
+.dumpedError
+    position absolute
+    height: 36px
+    left: 80.3%
+    line-height: 2.5rem
+    font-size: large
+    color: red
 </style>
