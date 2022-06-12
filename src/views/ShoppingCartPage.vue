@@ -9,6 +9,9 @@
         <div>
             <input type="button" id="submitToDeleteAll" value="批量删除">
         </div>
+        <div>
+            <span id="totalValue">￥0.00</span>
+        </div>
     </router-view>
 </template>
 <script>
