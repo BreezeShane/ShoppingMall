@@ -27,7 +27,7 @@ export default {
   components: {
     WareItem,
   },
-  mounted() {
+  mounted() {    
     axios.get('/api/goods/list')
       .then((response) => {
           this.goods.push(...response.data);
@@ -51,7 +51,7 @@ export default {
     return {
       goToShoppingCart,
     };
-  }
+  },
 }
 </script>
 

@@ -3,10 +3,10 @@
         <div>
             <img class="itemImg" :src="atom.pthumbnail" />
             <p class="itemName">{{ atom.name }}</p>
-            <p class="itemPrice">￥{{ atom.price1 }}</p>
+            <p class="itemPrice" :price="atom.price1">￥{{ atom.price1 }}</p>
         </div>
         <div class="addToCartBtnContainer">
-            <a type="button" class="addToCart">
+            <a type="button" class="addToCart" @click="addToMyCart($event)">
                 <font-awesome-icon icon="cart-plus" />
                 加入购物车
             </a>
@@ -14,14 +14,34 @@
     </div>
 </template>
 <script>
+import $ from 'jquery'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 library.add(faCartPlus)
 
 export default {
     name: "WareItem",
     props: ['atom'],
+    methods: {
+        addToMyCart(e){
+            let userID = sessionStorage.getItem("userID");
+            let itemID = $(e.currentTarget).parent().parent().attr("id");
+            let count = 1;
+            let price = $(e.currentTarget).parent().prev().children(".itemPrice").attr("price");
+            axios.get("/api/cart/add", {
+                params: {
+                    "userId": userID,
+                    "goodsId": itemID, 
+                    "num": count, 
+                    "price": price
+                }
+            }).then((res) => {
+                console.log(res.data);
+            })
+        }
+    },
 }
 </script>
 <style lang="stylus">

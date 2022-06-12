@@ -42,9 +42,12 @@ export default {
                 "password": userPassword
                 }
             }).then(res => {
-                return res.data
+                let ses = window.sessionStorage;
+                ses.setItem("userID", res.data);
+                return res.data;
             });
         }
+
       }
   },
 }
