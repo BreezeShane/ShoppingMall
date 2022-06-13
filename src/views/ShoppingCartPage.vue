@@ -75,15 +75,14 @@ export default {
             for (let indexItemID in this.allCheckedCartAtoms){
                 itemID = this.allCheckedCartAtoms[indexItemID];
                 $('#' + this.allCheckedCartAtoms[indexItemID]).remove();
-                console.log(userID, itemID, "removed! ");
-                // axios.get("/api/cart/deleteById", {
-                //     params: {
-                //         "userId": userID,
-                //         "cartId": itemID, 
-                //     }
-                // }).then((res) => {
-                //     return res.data;
-                // })
+                axios.get("/api/cart/deleteById", {
+                    params: {
+                        "userId": userID,
+                        "cartId": itemID, 
+                    }
+                }).then((res) => {
+                    return res.data;
+                })
             }
         },
         selectAll(e){
@@ -105,10 +104,8 @@ export default {
                 props.data.allCheckedCartAtoms.splice(
                     props.data.allCheckedCartAtoms.indexOf(CheckedAtom), 1
                 );
-                console.log("pushIntoList Delete: ", CheckedAtom)
             } else {
                 props.data.allCheckedCartAtoms.push(CheckedAtom);
-                console.log("pushIntoList Insert: ", CheckedAtom)
             }
         }
         return {
