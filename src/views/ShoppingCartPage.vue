@@ -12,6 +12,7 @@
             ></cart-item>
         </div>
         <div id="submitToDeleteAllContainer">
+            <input type="button" id="selectAllCheckbox" value="全选" @click="selectAll($event)" style="display: none;">
             <input type="button" id="submitToDeleteAll" value="批量删除" @click="submitToDeleteAll">
         </div>
         <div>
@@ -37,7 +38,8 @@ export default {
     ],
     data() {
         return {
-            count: 0,
+            multipleManageCount: 0,
+            selectAllCount: 0,
             goodsOfCart: [],
             allCheckedCartAtoms: []
         }
@@ -55,14 +57,17 @@ export default {
     },
     methods: {
         toCheckSomeItems(e){
-            if (this.count % 2){
+            if (this.multipleManageCount){
                 $(".cartAtomCheckbox").css("display", "none");
+                $("#selectAllCheckbox").css("display", "none");
                 $(e.currentTarget).attr("value", "批量管理");
+                this.multipleManageCount = 0;
             } else {
                 $(".cartAtomCheckbox").css("display", "block");
+                $("#selectAllCheckbox").css("display", "block");
                 $(e.currentTarget).attr("value", "取消");
+                this.multipleManageCount = 1;
             }
-            ++this.count;
         },
         submitToDeleteAll(){
             let userID = sessionStorage.getItem("userID");
@@ -70,21 +75,41 @@ export default {
             for (let indexItemID in this.allCheckedCartAtoms){
                 itemID = this.allCheckedCartAtoms[indexItemID];
                 $('#' + this.allCheckedCartAtoms[indexItemID]).remove();
-                axios.get("/api/cart/deleteById", {
-                    params: {
-                        "userId": userID,
-                        "cartId": itemID, 
-                    }
-                }).then((res) => {
-                    return res.data;
-                })
+                console.log(userID, itemID, "removed! ");
+                // axios.get("/api/cart/deleteById", {
+                //     params: {
+                //         "userId": userID,
+                //         "cartId": itemID, 
+                //     }
+                // }).then((res) => {
+                //     return res.data;
+                // })
             }
         },
+        selectAll(e){
+            $(".cartAtomCheckbox").click();
+            if (this.selectAllCount){
+                this.allCheckedCartAtoms = [];
+                $(e.currentTarget).attr("value", "全选");
+                this.selectAllCount = 0;
+            } else {
+                $(e.currentTarget).attr("value", "全不选");
+                this.selectAllCount = 1;
+            }
+        }
     },
     setup() {
         let props = getCurrentInstance();
-        const pushIntoList = (CheckedAtom) => {
-            props.data.allCheckedCartAtoms.push(CheckedAtom);
+        const pushIntoList = (CheckedAtom, toDel) => {
+            if (toDel){
+                props.data.allCheckedCartAtoms.splice(
+                    props.data.allCheckedCartAtoms.indexOf(CheckedAtom), 1
+                );
+                console.log("pushIntoList Delete: ", CheckedAtom)
+            } else {
+                props.data.allCheckedCartAtoms.push(CheckedAtom);
+                console.log("pushIntoList Insert: ", CheckedAtom)
+            }
         }
         return {
             pushIntoList,
@@ -124,5 +149,5 @@ export default {
 #submitToDeleteAllContainer
     position absolute
     top: 80%
-    left: 91.5%
+    left: 89%
 </style>

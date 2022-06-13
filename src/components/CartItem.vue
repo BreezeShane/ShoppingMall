@@ -4,7 +4,15 @@
             class="cartAtomCheckbox"
             type="checkbox"
             :value="atom.cardid"
-            @click="$emit('pushIntoList', atom.cardid)"
+            @change="
+                let toDel = false;
+                $emit('pushIntoList', atom.cardid, toDel);
+                if (toDel){
+                    toDel = false;
+                } else {
+                    toDel = true;
+                }
+            "
             style="display: none;"
         >
         <div>
