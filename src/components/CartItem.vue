@@ -1,6 +1,6 @@
 <template>
     <div class="CartAtom" :id="atom.cardid">
-        <input type="checkbox" value="" v-model="checkedCartAtoms">
+        <input type="checkbox" :value="atom.cardid" @click="$emit('pushIntoList', atom.cardid)">
         <div>
             <img class="atomImg" :src="'/api' + atom.thumbnail" />
             <p class="atomName" :wareid="atom.goodsId">{{ atom.name }}</p>
@@ -30,10 +30,22 @@ library.add(faCartPlus)
 export default {
     name: "CartItem",
     props: ['atom'],
+    // data() {
+    //     return {
+    //         checkedCartID: []
+    //     }
+    // },
     methods: {
+        setValue(e, { emit }){
+            this.checkedCartID = $(e.currentTarget).val();
+            emit('pushIntoList', this.checkedCartID);
+            console.log("setValue: ", this.checkedCartID);
+        },
         removeFromMyCart(e){
             let userID = sessionStorage.getItem("userID");
             let itemID = $(e.currentTarget).parent().parent().attr("id");
+            $(e.currentTarget).parent().parent().remove();
+            console.log("deleted: ", $(e.currentTarget).parent().parent());
             axios.get("/api/cart/deleteById", {
                 params: {
                     "userId": userID,
@@ -53,6 +65,16 @@ export default {
             $(e.currentTarget).prev().val(toSetNum);
         }
     },
+    emits: [
+        'pushIntoList',
+    ],
+    // setup (props, { emit }) {
+    //     console.log("props: ", props);
+    //     console.log("props.checkedCartID: ", props.checkedCartID);
+    //     if (props.checkedCartID){
+    //         emit('pushIntoList', this.checkedCartID);
+    //     }
+    // }
 }
 </script>
 <style lang="stylus">

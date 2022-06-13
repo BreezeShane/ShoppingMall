@@ -1,13 +1,18 @@
 <template>
     <router-view>
-        <div>
-            <input type="button" id="MultipleOperation" value="批量管理">
+        <div id="MultipleOperationContainer">
+            <input type="button" id="MultipleOperation" value="批量管理" @click="toCheckSomeItems">
         </div>
         <div class="ShoppingCart">
-            <cart-item v-for="atom in goodsOfCart" :key="atom" :atom="atom"></cart-item>
+            <cart-item 
+                v-for="atom in goodsOfCart" 
+                :key="atom" 
+                :atom="atom"
+                @pushIntoList="pushIntoList"
+            ></cart-item>
         </div>
-        <div>
-            <input type="button" id="submitToDeleteAll" value="批量删除">
+        <div id="submitToDeleteAllContainer">
+            <input type="button" id="submitToDeleteAll" value="批量删除" @click="submitToDeleteAll">
         </div>
         <div>
             <span id="totalValue">￥0.00</span>
@@ -17,6 +22,8 @@
 <script>
 import axios from 'axios'
 import CartItem from '../components/CartItem.vue'
+import $ from 'jquery'
+import { getCurrentInstance } from '@vue/runtime-core'
 export default {
     name: "ShoppingCartPage",
     components: {
@@ -25,10 +32,13 @@ export default {
     props: {
         msg: String
     },
+    emits: [
+        'pushIntoList'
+    ],
     data() {
         return {
             goodsOfCart: [],
-            checkedCartAtoms: []
+            allCheckedCartAtoms: []
         }
     },
     mounted() {
@@ -47,9 +57,31 @@ export default {
 
         },
         submitToDeleteAll(){
-
+            let userID = sessionStorage.getItem("userID");
+            let itemID;
+            for (let indexItemID in this.allCheckedCartAtoms){
+                itemID = this.allCheckedCartAtoms[indexItemID];
+                $('#' + this.allCheckedCartAtoms[indexItemID]).remove();
+                axios.get("/api/cart/deleteById", {
+                    params: {
+                        "userId": userID,
+                        "cartId": itemID, 
+                    }
+                }).then((res) => {
+                    return res.data;
+                })
+            }
         },
     },
+    setup() {
+        let props = getCurrentInstance();
+        const pushIntoList = (CheckedAtom) => {
+            props.data.allCheckedCartAtoms.push(CheckedAtom);
+        }
+        return {
+            pushIntoList,
+        }
+    }
 }
 </script>
 <style lang="stylus">
@@ -64,7 +96,7 @@ export default {
   border-color: grey
   border: 1px
   position: fixed
-  top: 7%
+  top: 20%
   left: 5%
   width: 90%
   height: 60%
@@ -77,4 +109,12 @@ export default {
   width: 100%
   text-align: center
   font-size: 50px
+#MultipleOperationContainer
+    position absolute
+    top: 15%
+    left: 91.5%
+#submitToDeleteAllContainer
+    position absolute
+    top: 80%
+    left: 91.5%
 </style>
