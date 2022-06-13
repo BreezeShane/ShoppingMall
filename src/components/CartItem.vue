@@ -1,6 +1,12 @@
 <template>
     <div class="CartAtom" :id="atom.cardid">
-        <input type="checkbox" :value="atom.cardid" @click="$emit('pushIntoList', atom.cardid)">
+        <input 
+            class="cartAtomCheckbox"
+            type="checkbox"
+            :value="atom.cardid"
+            @click="$emit('pushIntoList', atom.cardid)"
+            style="display: none;"
+        >
         <div>
             <img class="atomImg" :src="'/api' + atom.thumbnail" />
             <p class="atomName" :wareid="atom.goodsId">{{ atom.name }}</p>

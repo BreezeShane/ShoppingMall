@@ -1,7 +1,7 @@
 <template>
     <router-view>
         <div id="MultipleOperationContainer">
-            <input type="button" id="MultipleOperation" value="批量管理" @click="toCheckSomeItems">
+            <input type="button" id="MultipleOperation" value="批量管理" @click="toCheckSomeItems($event)">
         </div>
         <div class="ShoppingCart">
             <cart-item 
@@ -37,6 +37,7 @@ export default {
     ],
     data() {
         return {
+            count: 0,
             goodsOfCart: [],
             allCheckedCartAtoms: []
         }
@@ -53,8 +54,15 @@ export default {
         });
     },
     methods: {
-        toCheckSomeItems(){
-
+        toCheckSomeItems(e){
+            if (this.count % 2){
+                $(".cartAtomCheckbox").css("display", "none");
+                $(e.currentTarget).attr("value", "批量管理");
+            } else {
+                $(".cartAtomCheckbox").css("display", "block");
+                $(e.currentTarget).attr("value", "取消");
+            }
+            ++this.count;
         },
         submitToDeleteAll(){
             let userID = sessionStorage.getItem("userID");
