@@ -2,7 +2,7 @@
     <div class="CartAtom" :id="atom.cardid">
         <input type="checkbox" value="" v-model="checkedCartAtoms">
         <div>
-            <img class="atomImg" :src="atom.thumbnail" />
+            <img class="atomImg" :src="'/api' + atom.thumbnail" />
             <p class="atomName" :wareid="atom.goodsId">{{ atom.name }}</p>
             <p class="atomPrice" :price="atom.price">￥{{ atom.price }}</p>
         </div>

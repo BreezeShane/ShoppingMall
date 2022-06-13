@@ -1,7 +1,7 @@
 <template>
     <div class="WareItem" :id="atom.id">
         <div>
-            <img class="itemImg" :src="atom.pthumbnail" />
+            <img class="itemImg" :src="'/api' + atom.pthumbnail" />
             <p class="itemName">{{ atom.name }}</p>
             <p class="itemPrice" :price="atom.price1">￥{{ atom.price1 }}</p>
         </div>
