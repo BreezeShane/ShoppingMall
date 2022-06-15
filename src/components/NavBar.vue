@@ -1,20 +1,40 @@
 <template>
   <div class="navbar">
-    <span class="headTitle">
+    <span class="headTitle" @click="GOTO('Main')">
       <font-awesome-icon icon="shop" />
       简易购物商城
     </span>
-    <div class="actions">
+    <div class="actions" v-if="checkIsOffline">
       <div class="nav-item">
-        <a class="user" id="goToLogin" @click="goToLogin">
+        <a class="user" @click="GOTO('SignIn')">
           <font-awesome-icon icon="jet-fighter-up" />
           登录
         </a>
       </div>
       <div class="nav-item">
-        <a class="user" id="goToRegister" @click="goToRegister">
+        <a class="user" @click="GOTO('SignUp')">
           <font-awesome-icon icon="id-card" />
           注册
+        </a>
+      </div>
+    </div>
+    <div class="actions" v-else>
+      <div class="nav-item">
+        <a class="user" @click="GOTO('ShoppingCart')">
+          <font-awesome-icon icon="cart-shopping" />
+          我的购物车
+        </a>
+      </div>
+      <div class="nav-item">
+        <a class="user" @click="GOTO('OrderForm')">
+          <font-awesome-icon icon="notes-medical" />
+          我的订单
+        </a>
+      </div>
+      <div class="nav-item">
+        <a class="user" @click="logOut">
+          <font-awesome-icon icon="right-from-bracket" />
+          登出
         </a>
       </div>
     </div>
@@ -24,9 +44,25 @@
 <script>
 import { useRouter } from "vue-router";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faShop,faJetFighterUp,faIdCard } from '@fortawesome/free-solid-svg-icons'
+import {
+  faShop,
+  faJetFighterUp,
+  faIdCard,
+  faShoppingCart,
+  faNotesMedical,
+  faRightFromBracket
+} from '@fortawesome/free-solid-svg-icons'
+import bus from 'vue3-eventbus'
+import { computed, onBeforeMount, ref } from '@vue/runtime-core';
 
-library.add(faShop,faJetFighterUp, faIdCard);
+library.add(
+  faShop,
+  faJetFighterUp,
+  faIdCard,
+  faShoppingCart,
+  faNotesMedical,
+  faRightFromBracket
+);
 
 export default {
   name: 'NavBar',
@@ -35,21 +71,53 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const goToLogin = () => {
+    const GOTO = (Page) => {
       router.push({
-        name: "SignIn",
+        name: Page,
       });
     };
-    const goToRegister = () => {
-      router.push({
-        name: "SignUp",
-      });
-    };
+
+    const isOffline = function(){
+        if (sessionStorage.getItem("userID") || localStorage.getItem("userID")){
+          return ref(false);
+        } else {
+          return ref(true);
+        }
+    }();
+
+    const checkIsOffline = computed({
+      get: () => {
+        return isOffline.value;
+      },
+      set: (value) => {
+        isOffline.value = value;
+        return isOffline.value;
+      }
+    });
+
+    bus.on("RefreshNavBar", () => {
+      checkIsOffline.value = false;
+    });
+
+    onBeforeMount( () => {
+      bus.off("RefreshNavBar", {});
+    })
+
     return {
-      goToLogin,
-      goToRegister
+      GOTO,
+      isOffline,
+      checkIsOffline
     };
-  }
+  },
+  methods:{
+    logOut(){
+      localStorage.clear();
+      sessionStorage.clear();
+      this.isOffline = true;
+      alert("登出成功！");
+      this.GOTO('Main');
+    },
+  },
 }
 </script>
 

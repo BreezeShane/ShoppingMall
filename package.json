@@ -17,7 +17,8 @@
     "stylus": "^0.58.1",
     "stylus-loader": "^7.0.0",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.15",
+    "vue3-eventbus": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

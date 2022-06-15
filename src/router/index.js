@@ -24,6 +24,12 @@ const routes = [
         component: () =>
             import ('../views/SignUp.vue')
     },
+    {
+        path: '/myorders',
+        name: 'OrderForm',
+        component: () =>
+            import ('../views/OrderFormPage.vue')
+    },
 ]
 
 const router = createRouter({

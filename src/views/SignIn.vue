@@ -16,11 +16,22 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
+import { useRouter } from "vue-router";
+import bus from 'vue3-eventbus'
 
 export default {
   name: 'SignIn',
   props: {
     msg: String
+  },
+  setup(){
+    const router = useRouter();
+    const goToHome = () => {
+      router.push({name: "Main",});
+    };
+    return {
+        goToHome,
+    }
   },
   methods: {
       toSignIn(){
@@ -29,26 +40,31 @@ export default {
         let userName = $("#inputUserName").val()
         let userPassword = $("#inputUserPassword").val()
 
-        if (userName == ''){
-            $("#userNameError").css("display", "block");
-        }
-        if (userPassword == ''){
+        if (userName == '') $("#userNameError").css("display", "block");
+        if (userPassword == '')
             $("#userPasswordError").css("display", "block");
-        }
         if (userName && userPassword){
             axios.get('/api/user/login', {
                 params: {
-                "name": userName,
-                "password": userPassword
+                    "name": userName,
+                    "password": userPassword
                 }
             }).then(res => {
-                let ses = window.sessionStorage;
-                ses.setItem("userID", res.data);
-                return res.data;
+                if (res.data){
+                    let loc = window.localStorage;
+                    let ses = window.sessionStorage;
+                    loc.setItem("userID", res.data);
+                    ses.setItem("userID", res.data);
+                    alert("登录成功！");
+                    this.goToHome();
+                    bus.emit("RefreshNavBar",{});
+                    return res.data;
+                } else {
+                    alert("登录失败！账号或密码输入有误，也可能是账号不存在！");
+                }
             });
         }
-
-      }
+      },
   },
 }
 </script>
