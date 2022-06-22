@@ -19,14 +19,6 @@ module.exports = {
                     '^/api': ''
                 }
             },
-            // '/good/list': {
-            //     target: 'http://202.193.53.235:8080/good/list',
-            //     changeOrigin: true,
-            //     ws: true,
-            //     pathRewrite: {
-            //         '^/good/list': ''
-            //     }
-            // }
         }
-    }
+    },
 }
