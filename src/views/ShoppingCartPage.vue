@@ -1,7 +1,7 @@
 <template>
     <router-view>
         <div id="MultipleOperationContainer">
-            <input type="button" id="MultipleOperation" value="批量删除" @click="toCheckSomeItems($event)">
+            <va-button color="warning" :rounded="false" id="MultipleOperation" @click="toCheckSomeItems($event)">批量删除</va-button>
         </div>
         <div class="ShoppingCart">
             <cart-item 
@@ -13,12 +13,12 @@
             ></cart-item>
         </div>
         <div id="submitToDeleteAllContainer">
-            <input type="button" id="selectAllCheckbox" value="全选" @click="selectAll($event)" style="display: none;">
-            <input type="button" id="submitToDeleteAll" value="确认删除" @click="submitToDeleteAll" style="display: none;">
+            <va-button id="selectAllCheckbox" :rounded="false" @click="selectAll($event)" style="display: none;">全选</va-button>
+            <va-button color="danger" :rounded="false" id="submitToDeleteAll" @click="submitToDeleteAll" style="display: none;">确认删除</va-button>
         </div>
-        <div>
+        <div id="cartFooter">
             <span id="totalValue" total="0.00">￥0.00</span>
-            <input id="submitToBuy" type="button" value="购买" @click="submitToBuy">
+            <va-button size="large" gradient :rounded="false" id="submitToBuy" @click="submitToBuy">购买</va-button>
         </div>
     </router-view>
 </template>
@@ -64,14 +64,14 @@ export default {
                 $(".atomToBuy").css("display", "block");
                 $("#selectAllCheckbox").css("display", "none");
                 $("#submitToDeleteAll").css("display", "none");
-                $(e.currentTarget).attr("value", "批量管理");
+                $(e.currentTarget).html("批量管理");
                 this.multipleManageCount = 0;
             } else {
                 $(".atomToDel").css("display", "block");
                 $(".atomToBuy").css("display", "none");
                 $("#selectAllCheckbox").css("display", "block");
                 $("#submitToDeleteAll").css("display", "block");
-                $(e.currentTarget).attr("value", "取消");
+                $(e.currentTarget).html("取消");
                 this.multipleManageCount = 1;
             }
         },
@@ -95,10 +95,10 @@ export default {
             $(".cartAtomCheckbox").click();
             if (this.selectAllCount){
                 this.allCheckedCartAtoms = [];
-                $(e.currentTarget).attr("value", "全选");
+                $(e.currentTarget).html("全选");
                 this.selectAllCount = 0;
             } else {
-                $(e.currentTarget).attr("value", "全不选");
+                $(e.currentTarget).html("全不选");
                 this.selectAllCount = 1;
             }
         },
@@ -174,27 +174,33 @@ export default {
   height: 60%
   overflow: auto
 
-.JumptoShoppingCart
-  text-decoration-line: none
-  position absolute
-  top: 70%
-  width: 100%
-  text-align: center
-  font-size: 50px
 #MultipleOperationContainer
     position absolute
-    top: 15%
-    left: 91.5%
+    top: 12%
+    right: 5%
+
 #submitToDeleteAllContainer
     position absolute
     top: 80%
     left: 89%
+
 #totalValue
-    position absolute
-    top: 90%
-    left: 90%
+    position: absolute
+    top: 15%
+    right: 10.5%
+    font-size: 45px
+    font-weight: bold
+    color: red
+
 #submitToBuy
     position: absolute
-    top: 95%
-    left: 90%
+    top: 15%
+    right: 5%
+
+#cartFooter
+    position: absolute
+    bottom: 0
+    width: 100%
+    height: 10%
+    background-color: #f0f0f4
 </style>

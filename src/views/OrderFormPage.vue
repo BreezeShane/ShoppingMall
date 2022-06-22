@@ -1,10 +1,10 @@
 <template>
     <router-view>
-        <div id="orderContainer">
+        <va-list id="orderContainer">
             <ul>
                 <order-item v-for="atom in orderList" :key="atom.id" :id="atom.id" :atom="atom"></order-item>
             </ul>
-        </div>
+        </va-list>
     </router-view>
 </template>
 <script>
@@ -34,5 +34,14 @@ export default {
 <style lang="stylus">
 #orderContainer
     position absolute
-    top 13%
+    top 15%
+    left 25%
+    height: 70%
+    overflow: auto
+    overflow-x: hidden
+
+.va-list
+    width: 50%
+    .va-list-item__inner
+        width: 200%
 </style>

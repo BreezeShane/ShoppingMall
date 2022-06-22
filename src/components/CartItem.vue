@@ -1,49 +1,51 @@
 <template>
     <div class="CartAtom" :id="atom.cardid">
-        <input 
-            class="cartAtomCheckbox atomToDel"
-            type="checkbox"
-            :value="atom.cardid"
-            @change="
-                let toDel = false;
-                $emit('pushIntoList', atom.cardid, toDel);
-                if (toDel){
-                    toDel = false;
-                } else {
-                    toDel = true;
-                }
-            "
-            style="display: none;"
-        >
-        <input 
-            class="cartAtomCheckbox atomToBuy"
-            type="checkbox"
-            :value="atom.cardid"
-            @change="
-                let toBuy = false;
-                $emit('listIntoBuy', atom.cardid, toBuy);
-                if (toBuy){
-                    toBuy = false;
-                } else {
-                    toBuy = true;
-                }
-            "
-        >
-        <div>
+        <div class="checkboxes">
+            <input 
+                class="cartAtomCheckbox atomToDel"
+                type="checkbox"
+                :value="atom.cardid"
+                @change="
+                    let toDel = false;
+                    $emit('pushIntoList', atom.cardid, toDel);
+                    if (toDel){
+                        toDel = false;
+                    } else {
+                        toDel = true;
+                    }
+                "
+                style="display: none;"
+            >
+            <input 
+                class="cartAtomCheckbox atomToBuy"
+                type="checkbox"
+                :value="atom.cardid"
+                @change="
+                    let toBuy = false;
+                    $emit('listIntoBuy', atom.cardid, toBuy);
+                    if (toBuy){
+                        toBuy = false;
+                    } else {
+                        toBuy = true;
+                    }
+                "
+            >
+        </div>
+        <div class="itemProfile">
             <img class="atomImg" :src="'/api' + atom.thumbnail" />
             <p class="atomName" :wareid="atom.goodsId">{{ atom.name }}</p>
             <p class="atomPrice" :price="atom.price">￥{{ atom.price }}</p>
         </div>
         <div class="CartAtomCountSeries">
-            <input type="button" class="MinusCount" value="-" @click="goToMinusCount($event)">
+            <va-button size="small" :rounded="false" class="MinusCount" @click="goToMinusCount($event)">-</va-button>
             <input type="text" class="CartAtomCount" :value="atom.num">
-            <input type="button" class="PlusCount" value="+" @click="goToPlusCount($event)">
+            <va-button size="small" :rounded="false" class="PlusCount" @click="goToPlusCount($event)">+</va-button>
         </div>
         <div class="removeFromCartBtnContainer">
-            <a type="button" class="removeFromCart" @click="removeFromMyCart($event)">
+            <va-button flat :rounded="false" class="removeFromCart" @click="removeFromMyCart($event)">
                 <font-awesome-icon icon="cart-plus" />
                 移出购物车
-            </a>
+            </va-button>
         </div>
     </div>
 </template>
@@ -107,13 +109,21 @@ export default {
 }
 </script>
 <style lang="stylus">
+.checkboxes
+    position absolute
+    z-index 100
+
 .CartAtom
+    position relative
     width: 300px
     height: 400px
     border: 2px
     border-style: solid
     border-color: grey
-    div
+
+    .itemProfile
+    .CartAtomCountSeries
+    .removeFromCartBtnContainer
         position relative
 
 .atomImg
@@ -130,6 +140,30 @@ export default {
     font-size: larger
     font-weight: bolder
     position: absolute
-    top: 93.75%
+    top: 105%
     right: 5px
+
+.CartAtomCountSeries
+.removeFromCartBtnContainer
+    position absolute
+
+.CartAtomCountSeries
+    top: 4%
+    left: 10%
+
+.removeFromCartBtnContainer
+    top: 5%
+    .va-button
+        position: absolute
+        right: 0
+
+.MinusCount
+.PlusCount
+    width: 1%
+    font-size: larger
+    font-weight: bolder
+
+.CartAtomCount
+    text-align: center
+    width: 20%
 </style>

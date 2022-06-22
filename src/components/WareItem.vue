@@ -6,10 +6,10 @@
             <p class="itemPrice" :price="atom.price1">￥{{ atom.price1 }}</p>
         </div>
         <div class="addToCartBtnContainer">
-            <a type="button" class="addToCart" @click="addToMyCart($event)">
+            <va-button size="large" flat :rounded="false" class="addToCart" @click="addToMyCart($event)">
                 <font-awesome-icon icon="cart-plus" />
                 加入购物车
-            </a>
+            </va-button>
         </div>
     </div>
 </template>
@@ -38,6 +38,7 @@ export default {
                     "price": price
                 }
             }).then((res) => {
+                alert("添加成功！");
                 return res.data;
             })
         }
@@ -68,13 +69,12 @@ export default {
     font-size: larger
     font-weight: bolder
     position: absolute
-    top: 93.75%
+    top: 105%
     right: 5px
 
 .addToCartBtnContainer
     position relative
+    text-align: center
     .addToCart
-        position absolute
-        left: 10px
-        bottom: -25px
+        bottom: -30px
 </style>

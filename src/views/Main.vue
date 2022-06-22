@@ -5,8 +5,8 @@
     </div>
     <div>
         <va-button size="large" text-color="#FFFFFF" class="mr-4 JumptoShoppingCart" @click="goToShoppingCart">
-        <font-awesome-icon icon="cart-shopping" />
-            我的购物车
+          <font-awesome-icon icon="cart-shopping" />
+              我的购物车
         </va-button>
     </div>
   </router-view>
