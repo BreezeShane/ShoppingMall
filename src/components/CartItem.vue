@@ -1,7 +1,7 @@
 <template>
     <div class="CartAtom" :id="atom.cardid">
         <input 
-            class="cartAtomCheckbox"
+            class="cartAtomCheckbox atomToDel"
             type="checkbox"
             :value="atom.cardid"
             @change="
@@ -14,6 +14,20 @@
                 }
             "
             style="display: none;"
+        >
+        <input 
+            class="cartAtomCheckbox atomToBuy"
+            type="checkbox"
+            :value="atom.cardid"
+            @change="
+                let toBuy = false;
+                $emit('listIntoBuy', atom.cardid, toBuy);
+                if (toBuy){
+                    toBuy = false;
+                } else {
+                    toBuy = true;
+                }
+            "
         >
         <div>
             <img class="atomImg" :src="'/api' + atom.thumbnail" />
@@ -81,6 +95,7 @@ export default {
     },
     emits: [
         'pushIntoList',
+        'listIntoBuy',
     ],
     // setup (props, { emit }) {
     //     console.log("props: ", props);
