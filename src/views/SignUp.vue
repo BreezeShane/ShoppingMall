@@ -2,19 +2,51 @@
     <router-view>
         <div class="Register">
             <div id="userName">
-                <label>用户名：</label><input id="inputUserName" type="text">
+                <va-input
+                    id="inputUserName"
+                    class="mb-4"
+                    v-model="userName"
+                    label="用户名"
+                    placeholder="用户名"
+                />
                 <span class="dumpedError" id="userNameError" style="display: none;">请输入用户名！</span>
             </div>
             <div id="userPassword">
-                <label>密码：</label><input id="inputUserPassword" type="password">
+                <va-input
+                    id="inputUserPassword"
+                    class="mb-4"
+                    v-model="userPassword"
+                    label="密码"
+                    placeholder="密码"
+                    type="password"
+                />
                 <span class="dumpedError" id="userPasswordError" style="display: none;">请输入密码！</span>
             </div>
             <div id="userDuplicatedPassword">
-                <label>重复密码：</label><input id="inputDuplicatedUserPassword" type="password">
+                <va-input
+                    id="inputDuplicatedUserPassword"
+                    class="mb-4"
+                    v-model="userDuplicatedPassword"
+                    label="重复密码"
+                    placeholder="重复密码"
+                    type="password"
+                />
                 <span class="dumpedError" id="userDuplicatedPasswordError" style="display: none;">请输入密码！</span>
             </div>
-            <span class="dumpedError" id="registerError" style="display: none;">两次输入的密码不一致！</span>
-            <input id="loginSubmit" type="button" @click="toRegister" value="注     册">
+            <va-alert
+                id="registerError"
+                color="danger"
+                center
+                style="display: none;"
+                :description="'两次输入的密码不一致！'"
+            ></va-alert>
+            <div id="registerSubmit">
+                <va-button gradient size="large" @click="toRegister">
+                    <span>
+                        注 册
+                    </span>
+                </va-button>
+            </div>
         </div>
     </router-view>
 </template>
@@ -27,6 +59,13 @@ export default {
     props: {
         msg: String
     },
+    data() {
+        return {
+            userName: '',
+            userPassword: '',
+            userDuplicatedPassword: '',
+        }
+    },
     methods: {
         toRegister(){
             $("#userNameError").css("display", "none");
@@ -34,25 +73,21 @@ export default {
             $("#userDuplicatedPasswordError").css("display", "none");
             $("#registerError").css("display", "none");
 
-            let userName = $("#inputUserName").val()
-            let userPassword = $("#inputUserPassword").val()
-            let userDuplicatedPassword = $("#inputDuplicatedUserPassword").val()
-            9
-            if (userName == ''){
+            if (this.userName == ''){
                 $("#userNameError").css("display", "block");
             }
-            if (userPassword == ''){
+            if (this.userPassword == ''){
                 $("#userPasswordError").css("display", "block");
             }
-            if (userDuplicatedPassword == ''){
+            if (this.userDuplicatedPassword == ''){
                 $("#userDuplicatedPasswordError").css("display", "block");
             }
-            if (userPassword == userDuplicatedPassword){
-                if (userName && userPassword){
+            if (this.userPassword == this.userDuplicatedPassword){
+                if (this.userName && this.userPassword){
                     axios.get('/api/user/register', {
                         params: {
-                            "name": userName,
-                            "password": userPassword
+                            "name": this.userName,
+                            "password": this.userPassword
                         }
                     }).then(res => {
                         alert(res.data);
@@ -96,31 +131,44 @@ export default {
             height: 30px
     #userName
         top: 20%
+        .va-input
+            left: 25%
+            width: 50%
     #userPassword
         top: 35%
+        .va-input
+            left: 25%
+            width: 50%
     #userDuplicatedPassword
         top: 50%
-    #loginSubmit
+        .va-input
+            left: 25%
+            width: 50%
+    #registerSubmit
         position absolute
-        top: 75%
-        left: 20%
-        width: 60%
-        height: 40px
-        font-size: 24px
-        font-weight: bolder
-        border-radius: 10px
-        color: #f2fdff
-        background-color: #177cb0
+        top: 65%
+        left: 25%
+        .va-button
+            width: 50%
+            height: 40px
+            font-size: 24px
+            font-weight: bolder
+            color: #f2fdff
+            .va-button__content
+                span
+                    margin: 0 auto
 .dumpedError
     position absolute
     height: 36px
-    left: 80.3%
+    left: 76%
     line-height: 2.5rem
     font-size: large
     color: red
 #registerError
-    left: 41%
-    top: 60%
+    height: 10%
+    width: 50%
+    left: 25%
+    top: 5%
     font-size: larger
     font-weight: bolder
 </style>

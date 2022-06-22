@@ -4,10 +4,10 @@
         <ware-item v-for="atom in goods" :key="atom.id" :atom="atom"></ware-item>
     </div>
     <div>
-        <a class="JumptoShoppingCart" @click="goToShoppingCart">
+        <va-button size="large" text-color="#FFFFFF" class="mr-4 JumptoShoppingCart" @click="goToShoppingCart">
         <font-awesome-icon icon="cart-shopping" />
             我的购物车
-        </a>
+        </va-button>
     </div>
   </router-view>
 </template>
@@ -44,9 +44,13 @@ export default {
   setup() {
     const router = useRouter();
     const goToShoppingCart = () => {
-      router.push({
-        name: "ShoppingCart",
-      });
+      if (sessionStorage.getItem("userID")){
+        router.push({
+          name: "ShoppingCart",
+        });
+      } else {
+        alert("请先登录！")
+      }
     };
     return {
       goToShoppingCart,
@@ -67,17 +71,19 @@ export default {
   border-color: grey
   border: 1px
   position: fixed
-  top: 7%
+  top: 10%
   left: 5%
   width: 90%
   height: 60%
   overflow: auto
 
 .JumptoShoppingCart
+  height: 10%
   text-decoration-line: none
   position absolute
-  top: 70%
-  width: 100%
+  top: 75%
+  left: 40%
+  width: 20%
   text-align: center
   font-size: 50px
 </style>

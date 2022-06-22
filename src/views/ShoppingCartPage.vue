@@ -160,9 +160,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-#app
-  background-color: #e3f9fd
-
 .ShoppingCart
   display: flex;
   justify-content: space-between;

@@ -2,14 +2,33 @@
     <router-view>
         <div class="Login">
             <div id="userName">
-                <label>用户名：</label><input id="inputUserName" type="text">
+                <va-input
+                    id="inputUserName"
+                    class="mb-4"
+                    v-model="userName"
+                    label="用户名"
+                    placeholder="用户名"
+                />
                 <span class="dumpedError" id="userNameError" style="display: none;">请输入用户名！</span>
             </div>
             <div id="userPassword">
-                <label>密码：</label><input id="inputUserPassword" type="password">
+                <va-input
+                    id="inputUserPassword"
+                    class="mb-4"
+                    v-model="userPassword"
+                    label="密码"
+                    placeholder="密码"
+                    type="password"
+                />
                 <span class="dumpedError" id="userPasswordError" style="display: none;">请输入密码！</span>
             </div>
-            <input id="loginSubmit" type="button" @click="toSignIn" value="登     录">
+            <div id="loginSubmit">
+                <va-button gradient size="large" @click="toSignIn">
+                    <span>
+                        登 录
+                    </span>
+                </va-button>
+            </div>
         </div>
     </router-view>
 </template>
@@ -24,6 +43,12 @@ export default {
   props: {
     msg: String
   },
+  data() {
+      return {
+          userName: '',
+          userPassword: ''
+      }
+  },
   setup(){
     const router = useRouter();
     const goToHome = () => {
@@ -37,17 +62,15 @@ export default {
       toSignIn(){
         $("#userNameError").css("display", "none");
         $("#userPasswordError").css("display", "none");
-        let userName = $("#inputUserName").val()
-        let userPassword = $("#inputUserPassword").val()
 
-        if (userName == '') $("#userNameError").css("display", "block");
-        if (userPassword == '')
+        if (this.userName == '') $("#userNameError").css("display", "block");
+        if (this.userPassword == '')
             $("#userPasswordError").css("display", "block");
-        if (userName && userPassword){
+        if (this.userName && this.userPassword){
             axios.get('/api/user/login', {
                 params: {
-                    "name": userName,
-                    "password": userPassword
+                    "name": this.userName,
+                    "password": this.userPassword
                 }
             }).then(res => {
                 if (res.data){
@@ -99,23 +122,31 @@ export default {
             height: 30px
     #userName
         top: 30%
+        .va-input
+            left: 25%
+            width: 50%
     #userPassword
         top: 45%
+        .va-input
+            left: 25%
+            width: 50%
     #loginSubmit
         position absolute
         top: 60%
-        left: 20%
-        width: 60%
-        height: 40px
-        font-size: 24px
-        font-weight: bolder
-        border-radius: 10px
-        color: #f2fdff
-        background-color: #177cb0
+        left: 25%
+        .va-button
+            width: 50%
+            height: 40px
+            font-size: 24px
+            font-weight: bolder
+            color: #f2fdff
+            .va-button__content
+                span
+                    margin: 0 auto
 .dumpedError
     position absolute
     height: 36px
-    left: 80.3%
+    left: 76%
     line-height: 2.5rem
     font-size: large
     color: red
