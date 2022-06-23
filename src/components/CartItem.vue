@@ -37,9 +37,9 @@
             <p class="atomPrice" :price="atom.price">￥{{ atom.price }}</p>
         </div>
         <div class="CartAtomCountSeries">
-            <va-button size="small" :rounded="false" class="MinusCount" @click="goToMinusCount($event)">-</va-button>
+            <va-button size="small" outline :rounded="false" class="MinusCount" @click="goToMinusCount($event)">-</va-button>
             <input type="text" class="CartAtomCount" :value="atom.num">
-            <va-button size="small" :rounded="false" class="PlusCount" @click="goToPlusCount($event)">+</va-button>
+            <va-button size="small" outline :rounded="false" class="PlusCount" @click="goToPlusCount($event)">+</va-button>
         </div>
         <div class="removeFromCartBtnContainer">
             <va-button flat :rounded="false" class="removeFromCart" @click="removeFromMyCart($event)">
@@ -60,17 +60,8 @@ library.add(faCartPlus)
 export default {
     name: "CartItem",
     props: ['atom'],
-    // data() {
-    //     return {
-    //         checkedCartID: []
-    //     }
-    // },
     methods: {
-        setValue(e, { emit }){
-            this.checkedCartID = $(e.currentTarget).val();
-            emit('pushIntoList', this.checkedCartID);
-            console.log("setValue: ", this.checkedCartID);
-        },
+
         removeFromMyCart(e){
             let userID = sessionStorage.getItem("userID");
             let itemID = $(e.currentTarget).parent().parent().attr("id");
@@ -99,13 +90,6 @@ export default {
         'pushIntoList',
         'listIntoBuy',
     ],
-    // setup (props, { emit }) {
-    //     console.log("props: ", props);
-    //     console.log("props.checkedCartID: ", props.checkedCartID);
-    //     if (props.checkedCartID){
-    //         emit('pushIntoList', this.checkedCartID);
-    //     }
-    // }
 }
 </script>
 <style lang="stylus">

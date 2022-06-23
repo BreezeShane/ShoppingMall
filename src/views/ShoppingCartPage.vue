@@ -1,7 +1,7 @@
 <template>
     <router-view>
         <div id="MultipleOperationContainer">
-            <va-button color="warning" :rounded="false" id="MultipleOperation" @click="toCheckSomeItems($event)">批量删除</va-button>
+            <va-button color="warning" :rounded="false" id="MultipleOperation" @click="toCheckSomeItems($event)">批量管理</va-button>
         </div>
         <div class="ShoppingCart">
             <cart-item 
@@ -13,8 +13,8 @@
             ></cart-item>
         </div>
         <div id="submitToDeleteAllContainer">
-            <va-button id="selectAllCheckbox" :rounded="false" @click="selectAll($event)" style="display: none;">全选</va-button>
-            <va-button color="danger" :rounded="false" id="submitToDeleteAll" @click="submitToDeleteAll" style="display: none;">确认删除</va-button>
+            <va-button id="selectAllCheckbox" :rounded="false" @click="selectAll($event)">全选</va-button>
+            <va-button color="danger" :rounded="false" id="submitToDeleteAll" @click="submitToDeleteAll">确认删除</va-button>
         </div>
         <div id="cartFooter">
             <span id="totalValue" total="0.00">￥0.00</span>
@@ -47,6 +47,8 @@ export default {
         }
     },
     mounted() {
+        $("#selectAllCheckbox").css("display", "none");
+        $("#submitToDeleteAll").css("display", "none");
         axios.get('/api/cart/listByUser', {
             params: {
                 "userId": sessionStorage.getItem("userID")
@@ -90,6 +92,9 @@ export default {
                     return res.data;
                 })
             }
+            $("#totalValue").html("￥0.00");
+            $("#totalValue").attr("total", "0.00");
+            this.allCheckedCartAtoms = [];
         },
         selectAll(e){
             $(".cartAtomCheckbox").click();
@@ -146,7 +151,8 @@ export default {
             for(let itemIndex in props.data.allCheckedCartAtoms){
                 let itemID = props.data.allCheckedCartAtoms[itemIndex];
                 let itemPrice = parseFloat($("#" + itemID).find(".atomPrice").attr("price"));
-                totalPrice += itemPrice;
+                let itemCount = parseInt($("#" + itemID).find(".CartAtomCount").val());
+                totalPrice += itemPrice * itemCount;
             }
             let showTotalPrice = totalPrice.toFixed(2);
             $("#totalValue").html("￥" + showTotalPrice);
